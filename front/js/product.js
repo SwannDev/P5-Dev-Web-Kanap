@@ -47,7 +47,7 @@ function addProductToCart() {
     const addToCart = document.querySelector("#addToCart");
     const choiceQuantity = document.querySelector("#quantity");
     addToCart.addEventListener("click", (event) => {
-        // If the quantity are good, it will initialize the function and add the product to the cart
+        // Si la quantité est bonne, initialise la fonction et ajoute le produit au panier
         event.preventDefault();
         if (
             choiceQuantity.value > 0 &&
@@ -56,7 +56,7 @@ function addProductToCart() {
         ) {
             let idBasket = 0;
             let product = {
-                // Assignation of the values of the product in the cart
+                // Affectation des valeurs du produit dans le panier
                 idBasket: idBasket,
                 idProduct: getUrlSearchParams(),
                 name: document.querySelector("#title").innerHTML,
@@ -69,27 +69,27 @@ function addProductToCart() {
             let products = JSON.parse(localStorage.getItem("cart"));
 
             if (products) {
-                // if the product is found in the cart with the same color and idProduct, we add the quantity
+                // si le produit se retrouve dans le panier avec la même couleur et le même idProduct, on ajoute la quantité du produit
                 const isProductInTheCart = products.find(
                     (productInCart) =>
                     productInCart.idProduct === product.idProduct &&
                     productInCart.colors === product.colors
                 );
                 if (isProductInTheCart) {
-                    // Modify the quantity of a product already in the cart with a new value
+                    // Modifie la quantité d'un produit déjà dans le panier avec une nouvelle valeur
                     let newQuantity =
                         parseInt(isProductInTheCart.quantity) + parseInt(product.quantity);
                     isProductInTheCart.quantity = newQuantity;
                     persistItem(products);
                     redirectionToCartPage();
                 } else {
-                    // if the product is not found in the cart, add it to the cart
+                    // si le produit n'est pas trouvé dans le panier, l'ajoute au panier
                     products.push(product);
                     persistItem(products);
                     redirectionToCartPage();
                 }
             } else {
-                // if the cart is empty, add the product to the empty cart
+                // si le panier est vide, ajoute le produit au panier vide (initialise le panier)
                 products = [];
                 products.push(product);
                 localStorage.setItem("cart", JSON.stringify(products));
@@ -99,20 +99,20 @@ function addProductToCart() {
     });
 }
 
+
 const persistItem = (products) => {
-    localStorage.setItem("cart", JSON.stringify(products))
+  localStorage.setItem("cart", JSON.stringify(products))
 }
 
 function redirectionToCartPage() {
-    // Create an alert in the page when a product is added to the cart
-    if (
-        window.confirm(
-            "Votre produit a été ajouté au panier. Pour le consulter, cliquez sur OK."
-        )
-    ) {
-        window.location.href = "cart.html";
-    }
-    addProductToCart()
-
-} 
+  // Créer une alerte dans la page lorsqu'un produit est ajouté au panier
+  if (
+      window.confirm(
+          "Votre produit a été ajouté au panier. Pour le consulter, cliquez sur OK."
+      )
+  ) {
+      window.location.href = "cart.html";
+  }
+}
+addProductToCart();
 // Il manque : un alert si la couleur du canapé et la quantité n'est pas saisi
